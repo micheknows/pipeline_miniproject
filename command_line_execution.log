@@ -1,0 +1,9 @@
+(venv) > python pipeline.py third_party_sales_1.csv
+
+Table already exists.
+Here are the most popular tickets:
+- Washington Spirits vs Sky Blue FC:  Sold 5 tickets
+- Christmas Spectacular:  Sold 5 tickets
+- The North American International Auto Show:  Sold 4 tickets
+
+

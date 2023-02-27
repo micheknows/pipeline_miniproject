@@ -1,13 +1,13 @@
 import csv
-
+import sys
 import mysql.connector
 from datetime import date, timedelta
-
+from config import DATABASE_CONFIG
 
 def get_db_connection():
     connection = None
     try:
-        connection = mysql.connector.connect(user='root', password='ph0nics3', host='localhost', port='3306', database='pipeline')
+        connection = mysql.connector.connect(**DATABASE_CONFIG)
     except Exception as error:
         print("Error while connecting to database for pipeline project", error)
 
@@ -133,20 +133,26 @@ def query_popular_tickets(conn):
     cursor.close()
     return records
 
-
-# get the connection
-db_connection = get_db_connection()
-# create the table if it doens't already exist
-create_ticket_sales_table(db_connection)
-
-file_path_csv = 'third_party_sales_1.csv'
-#load_third_party(db_connection, file_path_csv)
-
-# I'm leaving out the "in the past month" because all of the data is from a couple of years ago.
-print("Here are the most popular tickets:")
-for event_name,total_tickets_sold,  in query_popular_tickets(db_connection):
-    print("- " + event_name + ":  Sold " + str(total_tickets_sold) + " tickets")
-
-db_connection.close()
+def main(file_path_csv):
+    # get the connection
+    db_connection = get_db_connection()
+    # create the table if it doens't already exist
+    create_ticket_sales_table(db_connection)
 
 
+    #load_third_party(db_connection, file_path_csv)
+
+    # I'm leaving out the "in the past month" because all of the data is from a couple of years ago.
+    print("Here are the most popular tickets:")
+    for event_name,total_tickets_sold,  in query_popular_tickets(db_connection):
+        print("- " + event_name + ":  Sold " + str(total_tickets_sold) + " tickets")
+
+    db_connection.close()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python myscript.py <file_path_csv>")
+        sys.exit(1)
+
+    file_path_csv = sys.argv[1]
+    main(file_path_csv)
