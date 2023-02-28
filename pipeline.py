@@ -14,14 +14,12 @@ def get_db_connection():
     return connection
 
 def create_ticket_sales_table(conn):
-    # Get database connection
     connection = conn
-
 
     # Create a cursor object
     cursor = connection.cursor()
 
-    # Define the SQL query to check if the table exists
+    # Make the  SQL query to check if the table exists
     table_exists_query = """
         SELECT 1
         FROM information_schema.tables
@@ -30,7 +28,7 @@ def create_ticket_sales_table(conn):
         LIMIT 1
     """
 
-    # Execute the query to check if the table exists
+    # check if table exists
     cursor.execute(table_exists_query)
 
     # If the table doesn't exist, create it
@@ -51,7 +49,7 @@ def create_ticket_sales_table(conn):
             )
         """
 
-        # Execute the SQL query to create the table
+        # create the table
         cursor.execute(create_table_query)
 
         # Commit the changes to the database
@@ -69,7 +67,7 @@ def load_third_party(conn, file_path_csv):
     cursor = conn.cursor()
 
     # [Iterate through the CSV file and execute insert statement]
-    # Define the SQL query to insert data into the ticket_sales table
+    # Create the SQL query to insert data into the ticket_sales table
     insert_query = """
         INSERT INTO ticket_sales (
             ticket_id,
@@ -90,10 +88,10 @@ def load_third_party(conn, file_path_csv):
     with open(file_path_csv, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         for row in csv_reader:
-            # Extract the values from the current row of the CSV file
+            # Get the values from the current row of the CSV file
             ticket_id, trans_date, event_id, event_name, event_date, event_type, event_city, customer_id, price, num_tickets = row
 
-            # Execute the insert query with the current row values as parameters
+            # Do insert with the current row
             cursor.execute(insert_query, (
                 int(ticket_id),
                 trans_date,
@@ -115,7 +113,8 @@ def load_third_party(conn, file_path_csv):
 def query_popular_tickets(conn):
     # Get the most popular ticket
     # The instructions said "in the past month", but I am leaving that out because all of the data is a couple of
-    # years old.  So, there are none in the past month.
+    # years old.  So, there are none in the past month.  However, I am leaving the code to demonstrate the knowledge
+    # of how to do that
     today = date.today()
     one_month_ago = today - timedelta(days=30)
     sql_statement = """
@@ -140,7 +139,6 @@ def main(file_path_csv):
     create_ticket_sales_table(db_connection)
 
 
-    #load_third_party(db_connection, file_path_csv)
 
     # I'm leaving out the "in the past month" because all of the data is from a couple of years ago.
     print("Here are the most popular tickets:")

@@ -8,20 +8,20 @@ To run this project, you will need:
 
 - Python 3.x
 - MySQL server
-- `mysql-connector-python` package (install with `pip install mysql-connector-python`)
+- `mysql-connector-python` package Install with <pre><code>pip install mysql-connector-python </code></pre>
 
 ## Installation
 
 1. Clone this repository:
-
+<pre><code>
 git clone https://github.com/micheknows/pipeline_miniproject.git
-
+</code></pre>
 
 2. Create a new MySQL database for the project, called 'pipeline'.
 
 3.  You can create the table if you like, but it will be automatically created, if you do not, according to this:
 
-```sql
+<pre><code>
 CREATE TABLE IF NOT EXISTS ticket_sales (
     ticket_id INT,
     trans_date DATE,
@@ -35,9 +35,10 @@ CREATE TABLE IF NOT EXISTS ticket_sales (
     num_tickets INT,
     PRIMARY KEY (ticket_id)
 );
-
+</code></pre>
 
 4.  Update the config.py file with your database credentials:
+<pre><code>
 DATABASE_CONFIG = {
     'user': 'your-username',
     'password': 'your-password',
@@ -45,9 +46,15 @@ DATABASE_CONFIG = {
     'port': 3306,
     'database': 'pipeline'
 }
+</code></pre>
 
 5.  Run the pipeline script to load the sample data:
+<pre><code>
 python pipeline.py third_party_sales_1.csv
+</code></pre>
+
+## Author
+Michelle Rogers
 
 ## License
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the LICENSE file for details.
